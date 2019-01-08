@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nav_graph"
+            app:startDestination="@id/accountsFragment">
+
+    <fragment
+        android:id="@+id/accountsFragment"
+        android:name="com.royalkonina.homeaccoutingapp.ui.fragments.accounts.list.AccountsFragment"
+        android:label="@string/accounts"
+        tools:layout="@layout/f_accounts"/>
+
+    <fragment
+        android:id="@+id/addAccountFragment"
+        android:name="com.royalkonina.homeaccoutingapp.ui.fragments.accounts.add.AddAccountFragment"
+        android:label="@string/add_account"
+        tools:layout="@layout/f_add_account"/>
+
+    <fragment
+        android:id="@+id/accountInfoFragment"
+        android:name="com.royalkonina.homeaccoutingapp.ui.fragments.accounts.info.AccountInfoFragment"
+        android:label="@string/account_info"
+        tools:layout="@layout/f_info_account"/>
+
+    <fragment
+        android:id="@+id/addOperationFragment"
+        android:name="com.royalkonina.homeaccoutingapp.ui.fragments.operations.add.AddOperationFragment"
+        android:label="@string/add_operation"
+        tools:layout="@layout/f_add_operation"/>
+
+</navigation>

@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">HomeAccoutingApp</string>
+    <string name="accounts">Accounts</string>
+    <string name="name">Name:</string>
+    <string name="balance">Balance:</string>
+    <string name="description">Description:</string>
+    <string name="add_account">Add Account</string>
+    <string name="add">Add</string>
+    <string name="add_operation">Add operation</string>
+    <string name="remove_account">Remove account</string>
+    <string name="date">Date:</string>
+    <string name="value">Value:</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="operations">Operations:</string>
+    <string name="account_info">Account Info</string>
+    <string name="type">Type:</string>
+    <string name="operationType">OperationType:</string>
+    <string name="categoryType">CategoryType:</string>
+    <string name="destination">Destination:</string>
+    <string name="source">Srouce:</string>
+</resources>
