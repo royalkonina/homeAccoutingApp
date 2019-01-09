@@ -18,5 +18,6 @@
     <string name="operationType">OperationType:</string>
     <string name="categoryType">CategoryType:</string>
     <string name="destination">Destination:</string>
-    <string name="source">Srouce:</string>
+    <string name="source">Source:</string>
+    <string name="search">Search</string>
 </resources>

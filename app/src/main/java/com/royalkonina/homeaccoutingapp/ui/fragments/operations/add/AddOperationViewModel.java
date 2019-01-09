@@ -39,13 +39,15 @@ public class AddOperationViewModel extends ViewModel {
                                 long destinationAccountId,
                                 String description) {
         try {
-            AccountStorage.getInstance().addOperation(new Operation(IdGenerator.generateId(),
+            if (sourceAccountId == destinationAccountId) return false;
+            Operation operation = new Operation(IdGenerator.generateId(),
                     new Date(),
                     operationType,
                     Long.parseLong(value),
                     sourceAccountId,
                     destinationAccountId,
-                    description));
+                    description);
+            AccountStorage.getInstance().addOperation(operation);
             return true;
         } catch (Exception e) {
             Log.e(getClass().getSimpleName(), e.toString());

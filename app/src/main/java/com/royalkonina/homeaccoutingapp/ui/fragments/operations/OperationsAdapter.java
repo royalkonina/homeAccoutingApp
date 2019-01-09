@@ -68,6 +68,11 @@ public class OperationsAdapter extends RecyclerView.Adapter<OperationsAdapter.Op
             TextView textDescription = itemView.findViewById(R.id.tv_description);
             textDescription.setText(operation.getDescription());
 
+            itemView.setOnLongClickListener(v -> {
+                AccountStorage.getInstance().removeOperation(operation);
+                return true;
+            });
+
         }
     }
 

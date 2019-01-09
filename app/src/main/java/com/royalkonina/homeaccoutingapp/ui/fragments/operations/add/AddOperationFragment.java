@@ -32,7 +32,6 @@ public class AddOperationFragment extends Fragment {
     private Spinner spinnerOperation;
     private Spinner spinnerSource;
     private Spinner spinnerDestination;
-    private View layoutOperation;
     private View layoutSource;
     private View layoutDestination;
     private EditText editDescription;
@@ -53,7 +52,6 @@ public class AddOperationFragment extends Fragment {
         spinnerSource = view.findViewById(R.id.spinner_source_account);
         spinnerDestination = view.findViewById(R.id.spinner_destination_account);
 
-        layoutOperation = view.findViewById(R.id.layout_operation);
         layoutDestination = view.findViewById(R.id.layout_destination);
         layoutSource = view.findViewById(R.id.layout_source);
 
@@ -65,7 +63,7 @@ public class AddOperationFragment extends Fragment {
                     android.R.layout.simple_spinner_item,
                     operationTypes);
             spinnerOperation.setAdapter(operationTypeArrayAdapter);
-            spinnerOperation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            spinnerOperation.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     operationType = operationTypes[position];
@@ -98,7 +96,7 @@ public class AddOperationFragment extends Fragment {
                     android.R.layout.simple_spinner_item,
                     accountNames);
             spinnerSource.setAdapter(sourceAccountArrayAdapter);
-            spinnerSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            spinnerSource.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     sourceAccountId = accountList.get(position).getId();
@@ -114,7 +112,7 @@ public class AddOperationFragment extends Fragment {
                     android.R.layout.simple_spinner_item,
                     accountNames);
             spinnerDestination.setAdapter(destinationAccountArrayAdapter);
-            spinnerDestination.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            spinnerDestination.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     destinationAccountId = accountList.get(position).getId();
@@ -130,6 +128,14 @@ public class AddOperationFragment extends Fragment {
         addButton.setOnClickListener(v -> {
             String value = editBalance.getText().toString();
             String description = editDescription.getText().toString();
+            switch (operationType) {
+                case CONSUMPTION:
+                    destinationAccountId = -1;
+                    break;
+                case INCOMING:
+                    sourceAccountId = -1;
+                    break;
+            }
             boolean success = viewModel.addOperation(operationType, value, sourceAccountId, destinationAccountId, description);
             Toast.makeText(getContext(), success ? "Successful" : "Some error", Toast.LENGTH_SHORT).show();
             if (success) {

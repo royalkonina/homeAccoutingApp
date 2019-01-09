@@ -55,4 +55,12 @@ public class Operation {
     public String getDescription() {
         return description;
     }
+
+    public void setSourceAccountId(long sourceAccountId) {
+        this.sourceAccountId = sourceAccountId;
+    }
+
+    public void setDestinationAccountId(long destinationAccountId) {
+        this.destinationAccountId = destinationAccountId;
+    }
 }

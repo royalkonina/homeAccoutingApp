@@ -44,6 +44,21 @@ public class Account {
 
     public void addOperation(Operation operation) {
         operations.add(operation);
+        recalculateBalance(operation, 1);
     }
 
+    private void recalculateBalance(Operation operation, int multiplier) {
+        if (operation.getDestinationAccountId() == id) {
+            balance += operation.getValue() * multiplier;
+        } else if (operation.getSourceAccountId() == id) {
+            balance -= operation.getValue() * multiplier;
+        }
+    }
+
+    public void removeOperation(Operation operation) {
+        boolean contained = operations.remove(operation);
+        if (contained) {
+            recalculateBalance(operation, -1);
+        }
+    }
 }

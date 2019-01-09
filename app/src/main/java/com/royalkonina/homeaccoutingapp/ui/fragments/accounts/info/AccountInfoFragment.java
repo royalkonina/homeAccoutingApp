@@ -1,10 +1,13 @@
 package com.royalkonina.homeaccoutingapp.ui.fragments.accounts.info;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.royalkonina.homeaccoutingapp.R;
@@ -30,6 +33,7 @@ public class AccountInfoFragment extends Fragment {
     private OperationsAdapter adapter;
     private Button buttonAddOperation;
     private Button buttonRemoveAccount;
+    private EditText editSearch;
 
     @Nullable
     @Override
@@ -41,6 +45,7 @@ public class AccountInfoFragment extends Fragment {
         textBalance = view.findViewById(R.id.tv_balance);
         buttonAddOperation = view.findViewById(R.id.btn_add_operation);
         buttonRemoveAccount = view.findViewById(R.id.btn_remove_account);
+        editSearch = view.findViewById(R.id.edit_search);
 
         long accountId = getArguments().getLong(ACCOUNT_KEY);
         viewModel.setAccountId(accountId);
@@ -54,9 +59,28 @@ public class AccountInfoFragment extends Fragment {
             textName.setText(account.getName());
             textDescription.setText(account.getDescription());
             textBalance.setText(String.valueOf(account.getBalance()));
+        });
 
-            adapter.setData(account.getOperations());
+        viewModel.getOperationsLiveData().observe(this, operations -> {
+            adapter.setData(operations);
             adapter.notifyDataSetChanged();
+        });
+
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //do nothing
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                viewModel.setFilter(s.toString());
+            }
         });
 
         buttonAddOperation.setOnClickListener(v -> {

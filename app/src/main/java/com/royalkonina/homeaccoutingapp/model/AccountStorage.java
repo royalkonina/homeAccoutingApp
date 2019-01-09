@@ -27,6 +27,7 @@ public class AccountStorage {
 
     private List<Account> accounts = new ArrayList<>();
     private MutableLiveData<List<Account>> accountsLiveData = new MutableLiveData<>();
+    private MutableLiveData<Account> currentAccountLiveData = new MutableLiveData<>();
 
     public LiveData<List<Account>> getAccountsLiveData() {
         return accountsLiveData;
@@ -38,12 +39,11 @@ public class AccountStorage {
     }
 
     public LiveData<Account> getAccountLiveData(long id) {
-        MutableLiveData<Account> liveData = new MutableLiveData<>();
         Account account = findAccountById(id);
         if (account != null) {
-            liveData.setValue(account);
+            currentAccountLiveData.setValue(account);
         }
-        return liveData;
+        return currentAccountLiveData;
     }
 
     @Nullable
@@ -70,11 +70,46 @@ public class AccountStorage {
 
     private void notifyAccountsChanged() {
         accountsLiveData.setValue(accounts);
+        if (currentAccountLiveData.getValue() != null) {
+            Account account = findAccountById(currentAccountLiveData.getValue().getId());
+            if (account != null) {
+                currentAccountLiveData.setValue(account);
+            }
+        }
     }
 
-    public void removeAccount(long accountId) {
+    public void removeAccount(Long accountId) {
         Account account = findAccountById(accountId);
+        Account anotherAccount = findAnotherAccount(accountId);
+        if (account != null && anotherAccount != null) {
+            for (Operation operation : account.getOperations()) {
+                if (operation.getDestinationAccountId() == account.getId()) {
+                    operation.setDestinationAccountId(anotherAccount.getId());
+                }
+                if (operation.getSourceAccountId() == account.getId()) {
+                    operation.setSourceAccountId(anotherAccount.getId());
+                }
+                anotherAccount.addOperation(operation);
+            }
+        }
         accounts.remove(account);
+        notifyAccountsChanged();
+    }
+
+    @Nullable
+    private Account findAnotherAccount(long accountId) {
+        for (Account acc : accounts) {
+            if (acc.getId() != accountId) {
+                return acc;
+            }
+        }
+        return null;
+    }
+
+    public void removeOperation(Operation operation) {
+        for (Account account : accounts) {
+            account.removeOperation(operation);
+        }
         notifyAccountsChanged();
     }
 }
