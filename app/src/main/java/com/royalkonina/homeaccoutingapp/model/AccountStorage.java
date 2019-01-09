@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -110,6 +111,12 @@ public class AccountStorage {
         for (Account account : accounts) {
             account.removeOperation(operation);
         }
+        notifyAccountsChanged();
+    }
+
+    @VisibleForTesting
+    public void clear() {
+        accounts.clear();
         notifyAccountsChanged();
     }
 }
